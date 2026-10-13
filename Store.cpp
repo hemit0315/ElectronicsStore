@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include "Store.h"
-
+#include <stdexcept>
 using namespace std;
 
 Store::Store()
@@ -106,84 +106,88 @@ void Store::menu()
 
     } while (choice != 12);
 }
+
 void Store::addProduct()
 {
-    if (productCount >= productCapacity)
+    try
     {
-        cout << "Product storage is full!" << endl;
-        return;
-    }
-
-    int id, stock, type, warrantyMonths;
-    string name, brand, applianceType;
-    double price;
-
-    cout << "Enter Product ID: ";
-    cin >> id;
-
-    for (int i = 0; i < productCount; i++)
-    {
-        if (products[i]->getProductId() == id)
+        if (productCount >= productCapacity)
         {
-            cout << "Product ID already exists!" << endl;
-            return;
-        }
-    }
-
-    cout << "Enter Product Name: ";
-    cin >> ws;
-    getline(cin, name);
-
-    cout << "Enter Brand: ";
-    getline(cin, brand);
-
-    cout << "Enter Price: ";
-    cin >> price;
-
-    cout << "Enter Stock: ";
-    cin >> stock;
-
-    if (price < 0 || stock < 0)
-    {
-        cout << "Price and stock cannot be negative!" << endl;
-        return;
-    }
-
-    cout << "Select Product Type (1. Electronic Product, 2. Appliance): ";
-    cin >> type;
-
-    if (type == 1)
-    {
-        cout << "Enter Warranty (months): ";
-        cin >> warrantyMonths;
-
-        if (warrantyMonths < 0)
-        {
-            cout << "Warranty cannot be negative!" << endl;
-            return;
+            throw runtime_error("Product storage is full!");
         }
 
-        products[productCount] = new ElectronicProduct(
-            id, name, brand, price, stock, warrantyMonths);
-    }
-    else if (type == 2)
-    {
-        cout << "Enter Appliance Type: ";
+        int id, stock, type, warrantyMonths;
+        string name, brand, applianceType;
+        double price;
+
+        cout << "Enter Product ID: ";
+        cin >> id;
+
+        for (int i = 0; i < productCount; i++)
+        {
+            if (products[i]->getProductId() == id)
+            {
+                throw runtime_error("Product ID already exists!");
+            }
+        }
+
+        cout << "Enter Product Name: ";
         cin >> ws;
-        getline(cin, applianceType);
+        getline(cin, name);
 
-        products[productCount] = new Appliance(
-            id, name, brand, price, stock, applianceType);
+        cout << "Enter Brand: ";
+        getline(cin, brand);
+
+        cout << "Enter Price: ";
+        cin >> price;
+
+        cout << "Enter Stock: ";
+        cin >> stock;
+
+        if (price < 0 || stock < 0)
+        {
+            throw invalid_argument("Price and stock cannot be negative!");
+        }
+
+        cout << "Select Product Type (1. Electronic Product, 2. Appliance): ";
+        cin >> type;
+
+        if (type == 1)
+        {
+            cout << "Enter Warranty (months): ";
+            cin >> warrantyMonths;
+
+            if (warrantyMonths < 0)
+            {
+                throw invalid_argument("Warranty cannot be negative!");
+            }
+
+            products[productCount] = new ElectronicProduct(
+                id, name, brand, price, stock, warrantyMonths);
+        }
+        else if (type == 2)
+        {
+            cout << "Enter Appliance Type: ";
+            cin >> ws;
+            getline(cin, applianceType);
+
+            products[productCount] = new Appliance(
+                id, name, brand, price, stock, applianceType);
+        }
+        else
+        {
+            throw invalid_argument("Invalid product type!");
+        }
+
+        productCount++;
+        cout << "Product added successfully!" << endl;
     }
-    else
+    catch (const exception& e)
     {
-        cout << "Invalid product type!" << endl;
-        return;
+        cout << "Error: " << e.what() << endl;
     }
-
-    productCount++;
-    cout << "Product added successfully!" << endl;
 }
+
 
 void Store::displayProducts()
 {
