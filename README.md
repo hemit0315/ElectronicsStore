@@ -64,8 +64,26 @@ ElectronicsStore/
 ├── Store.cpp
 ├── products.txt
 ├── customers.txt
+├── UML_Diagrams/
+│   ├── 01_use_case_diagram.png
+│   ├── 02_class_diagram.png
+│   ├── 03_sequence_add_product.png
+│   └── 04_sequence_process_sale.png
 └── README.md
 ```
+## UML Diagrams
+
+### 1. Use Case Diagram
+![Use Case Diagram](UML_Diagrams/01_use_case_diagram.png)
+
+### 2. Class Diagram
+![Class Diagram](UML_Diagrams/02_class_diagram.png)
+
+### 3. Sequence Diagram – Add Product
+![Add Product Sequence Diagram](UML_Diagrams/03_sequence_add_product.png)
+
+### 4. Sequence Diagram – Process Sale
+![Process Sale Sequence Diagram](UML_Diagrams/04_sequence_process_sale.png)
 
 ## Requirements
 - macOS or another operating system with a C++ compiler
